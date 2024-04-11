@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('c_youtube')->nullable();
             $table->string('c_website')->nullable();
             $table->string('c_invite_code');
+            $table->unsignedBigInteger('c_u_id');
+            $table->foreign('c_u_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
