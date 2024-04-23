@@ -3,9 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header text-center" style="background-color:  #009bfa;"><h2 style="font-family: sans-serif; font-weight: bold; color: white;">Login</h2></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -52,17 +52,17 @@
                         </div>
 
                         <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="col-md-4 justify-content-center align-items-center m-auto">
+                                <button type="submit" class="btn btn-primary w-100">
                                     {{ __('Login') }}
                                 </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
                             </div>
+                            <br>
+                            @if (Route::has('password.request'))
+                            <a class="btn btn-link" href="{{ route('password.request') }}">
+                                {{ __('Forgot Your Password?') }}
+                            </a>
+                        @endif
                         </div>
                     </form>
                 </div>

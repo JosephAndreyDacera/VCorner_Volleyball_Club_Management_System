@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('club_members', function (Blueprint $table) {
             $table->id('cm_id');
             $table->string('cm_date_joined');
-            $table->unsignedBigInteger('cm_ui_id');
-            $table->foreign('cm_ui_id')->references('ui_id')->on('user_information');
+            $table->unsignedBigInteger('cm_u_id');
+            $table->foreign('cm_u_id')->references('id')->on('users');
             $table->unsignedBigInteger('cm_c_id');
             $table->foreign('cm_c_id')->references('c_id')->on('clubs');
             $table->unsignedBigInteger('cm_mt_id');

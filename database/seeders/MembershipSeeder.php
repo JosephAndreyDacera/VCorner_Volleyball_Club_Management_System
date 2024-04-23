@@ -48,14 +48,22 @@ class MembershipSeeder extends Seeder
         //
         for ($i=1; $i<21; $i++)
         {
-
             DB::table('club_members')->insert([
-                'cm_ui_id' => $i,
+                'cm_u_id' => $i,
                 'cm_c_id' => 1,
                 'cm_mt_id' => 1,
                 'cm_date_joined' => '2024-12-04',
             ]);
+        }
 
+        for ($i=2; $i<21; $i++)
+        {
+            DB::table('club_members')->insert([
+                'cm_u_id' => $i,
+                'cm_c_id' => $i,
+                'cm_mt_id' => 1,
+                'cm_date_joined' => '2024-12-04',
+            ]);
         }
 
     }

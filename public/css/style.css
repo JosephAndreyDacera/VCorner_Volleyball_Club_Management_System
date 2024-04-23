@@ -1,0 +1,64 @@
+
+
+.nav_link_font{
+    font-family: sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.nav_link_font:hover{
+    color: black;
+}
+
+.nav_link_font_active{
+    color: black;
+}
+
+.off_canvas{
+    background-color: white;
+    color: black;
+}
+
+.nav_link{
+    border-radius: 10px;
+}
+
+.nav_link:hover{
+    border-bottom: 2px solid #0aa5ff;
+    border-radius: 10px 10px 0 0;
+}
+
+.nav_link_active{
+    border-bottom: 2px solid #0aa5ff;
+    border-radius: 10px 10px 0 0;
+}
+
+
+.card_image{
+    height: 200px;
+    background-size: cover;
+}
+
+.img_preview{
+    height: auto;
+    width: 200px;
+    background-size: cover;
+}
+
+.card_header_bg{
+    background-color:  #009bfa;
+}
+
+.card_header_font{
+    font-family: sans-serif;
+    font-weight: bold;
+    color: white;
+}
+
+
+.club_card:hover{
+    border: 2px solid #009bfa;
+    box-shadow: 2px 2px 5px #009bfa;
+}
+/* ============================================= */
+
