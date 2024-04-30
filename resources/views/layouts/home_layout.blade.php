@@ -14,8 +14,10 @@
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
+    <script src="{{asset('js/jquery-3.7.1.js')}}"></script>
+
 </head>
-<body class="">
+<body>
     <div id="app">
         {{-- Navigation Bar --}}
         <nav class="navbar navbar-expand-md shadow">
@@ -118,6 +120,18 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        {{-- <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <span class="ms-5 mb-3 mb-md-0 text-muted">&copy; 2024, VCorner</span>
+            </div>
+
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex me-5">
+                <li class="ms-3"><a class="text-muted" href="#"><i class="fa-brands fa-square-facebook"></i></a></li>
+                <li class="ms-3"><a class="text-muted" href="#"><i class="fa-brands fa-square-instagram"></i></a></li>
+                <li class="ms-3"><a class="text-muted" href="#"><i class="fa-brands fa-square-x-twitter"></i></a></li>
+            </ul>
+        </footer> --}}
     </div>
 
     <script src="{{asset('js/bootstrap.bundle.js')}}"></script>

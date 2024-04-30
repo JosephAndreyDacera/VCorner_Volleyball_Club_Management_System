@@ -13,6 +13,15 @@
                         </div>
                         <div class="card-body p-md-5">
                             <div class="row">
+                                @if (session()->has('message_error'))
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <?php echo session()->get('message_error'); ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                    <?php session()->forget('message_error'); ?>
+                                @endif
+                            </div>
+                            <div class="row">
                                 <div class="mb-3">
                                     <label for="clubName" class="form-label"><b>Club Name</b></label>
                                     <input type="text" class="form-control" id="clubName" name="clubName" placeholder="Input club name" required>

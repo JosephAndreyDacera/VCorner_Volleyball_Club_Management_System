@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('membership_types', function (Blueprint $table) {
             $table->id('mt_id');
             $table->string('mt_type');
+            $table->string('mt_code');
             $table->string('mt_description')->nullable();
             $table->timestamps();
         });

@@ -1,5 +1,7 @@
 
-
+.input_font{
+    font-family: sans-serif;
+}
 .nav_link_font{
     font-family: sans-serif;
     font-size: 1rem;
@@ -33,6 +35,12 @@
     border-radius: 10px 10px 0 0;
 }
 
+.tab_link{
+    font-family: sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
 
 .card_image{
     height: 200px;
@@ -55,10 +63,38 @@
     color: white;
 }
 
+.card_club_info{
+    height: 255px;
+}
+
+.card_link{
+    text-decoration: none;
+    color: black;
+}
+
 
 .club_card:hover{
     border: 2px solid #009bfa;
-    box-shadow: 2px 2px 5px #009bfa;
+    /* box-shadow: 2px 2px 5px #009bfa; */
 }
+
+
+.club_view_img{
+    width: 300px;
+    height: auto;
+}
+
+.bg_blue{
+    background-color:  #009bfa;
+}
+
 /* ============================================= */
+
+@media only screen and (max-width: 600px) {
+
+    .card_club_info{
+        height: 200px;
+    }
+
+}
 

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
 <body class="">
     <div id="app">
@@ -59,19 +60,19 @@
                                     </a>
                                 </li>
                             @else
-                                <li class="nav-item nav_link me-1">
-                                    <a class="nav-link nav_link_font ps-2" aria-current="page" href="{{route('clubs')}}">
+                                <li class="nav-item nav_link nav_link_active me-1">
+                                    <a class="nav-link nav_link_font nav_link_font_active ps-2" aria-current="page" href="{{route('clubs')}}">
                                         <span><i class="fa-solid fa-people-group"></i></span>
                                         My Clubs
                                     </a>
                                 </li>
                             @endif
-                            <li class="nav-item nav_link dropdown me-1">
-                                <a id="navbarDropdown" class="nav-link nav_link_font dropdown-toggle  ps-2 nav_link_font_active" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{-- <li class="nav-item nav_link dropdown me-1">
+                                <a id="manageDropdown" class="nav-link nav_link_font dropdown-toggle  ps-2 nav_link_font_active" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <span><i class="fa-solid fa-people-roof"></i></span>
                                     Manage
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="manageDropdown">
                                     <a href="#" class="dropdown-item">
                                         Membership
                                     </a>
@@ -82,7 +83,7 @@
                                         Events
                                     </a>
                                 </div>
-                            </li>
+                            </li> --}}
 
                             <li class="nav-item nav_link dropdown me-1">
                                 <a id="navbarDropdown" class="nav-link nav_link_font dropdown-toggle  ps-2" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -114,6 +115,8 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+
     </div>
 
     <script src="{{asset('js/bootstrap.bundle.js')}}"></script>

@@ -18,11 +18,40 @@
                 {{-- <a href="#" class="btn btn-success float-end ms-1 me-1"><span><i class="fa-solid fa-user-plus me-2"></i></span>Join Club</a> --}}
                 <button type="button" class="btn btn-success float-end ms-1 me-1" data-bs-toggle="modal" data-bs-target="#joinClubModal"><i class="fa-solid fa-user-plus me-2"></i></span>Join Club</button>
                 <a href="{{route('create_club')}}" class="btn btn-primary float-end ms-1 me-1"><span><i class="fa-solid fa-square-plus me-2"></i></span>Create Club</a>
-
             </div>
         </div>
         <hr>
-        <div class="row">
+        @if (session()->has('message_success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?php echo session()->get('message_success'); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php session()->forget('message_success'); ?>
+        @endif
+
+        @if (session()->has('message_warning'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <?php echo session()->get('message_warning'); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php session()->forget('message_warning'); ?>
+        @endif
+
+        @if (session()->has('message_error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?php echo session()->get('message_error'); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php session()->forget('message_error'); ?>
+        @endif
+
+
+
+        <a href="{{route('client_membership_update')}}" class="btn btn-secondary text-white float-end me-1">
+            <span><i class="fa-solid fa-square-pen"></i></span> Membership Request Updates
+        </a>
+        <br>
+        <div class="mt-5 row">
             @foreach ($userClubs as $userClub)
                 <div class="col-md-3 col-sm-6 col-xs-12 d-flex align-items-stretch mb-3">
                     <a href="{{route('view_club',['id'=>$userClub->c_id])}}" class="text-black text-decoration-none">
@@ -40,7 +69,8 @@
                 </div>
             @endforeach
         </div>
-        <form action="" method="post">
+        <form action="{{route('requestJoin')}}" method="post">
+            @csrf
             <div class="modal fade" id="joinClubModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -53,7 +83,7 @@
                                 <label for="inviteCode" class="form-label"><b>Club Invitation Code</b></label>
                                 <h6 class="form-text">You can ask your club managers or members for the invitation code and enter it on the club invation code field.</h6>
                                 <h6 class="form-text">Once you submit the code, club managers will review your request to join the club. </h6>
-                                <input type="text" class="form-control" id="inviteCode" name="inviteCode" placeholder="Input club invitation code...">
+                                <input type="text" class="form-control input_font" id="inviteCode" name="inviteCode" placeholder="Input club invitation code...">
                                 <br>
                             </div>
                         </div>
@@ -76,15 +106,15 @@
                 <h3>Discover</h3>
             </div>
             <div class="col-md-4 mb-2">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-primary" type="submit"> Search </button>
-                </form>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="searchClub" id="searchClub" placeholder="Search club name..." aria-label="Search club" aria-describedby="basic-addon2">
+                    <span class="input-group-text bg-primary" id="basic-addon2"><i class="fa-solid fa-magnifying-glass text-white"></i></span>
+                </div>
             </div>
         </div>
 
         <hr>
-        <div class="row">
+        <div class="row" id="searchResult">
             @foreach ($otherClubs as $otherClub)
                 <div class="col-md-3 col-sm-6 col-xs-12 d-flex align-items-stretch mb-3">
                     <div class="card ms-auto me-auto w-100 club_card">
@@ -102,4 +132,23 @@
         </div>
     </div>
 </section>
+
+<script type="text/javascript">
+    $('#searchClub').on('keyup', function(){
+        $value = $(this).val();
+
+        $.ajax({
+            type:'get',
+            url:'{{URL::to('search_club')}}',
+            data:{'searchClub':$value},
+
+            success:function(data){
+                // console.log(data);
+                $('#searchResult').html(data);
+            }
+        });
+
+
+    });
+</script>
 @endsection
