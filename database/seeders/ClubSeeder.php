@@ -137,26 +137,26 @@ class ClubSeeder extends Seeder
         ];
 
         $inviteCodes = [
-            "aB3cDfG5",
-            "hI9jKlM7",
-            "nOpQrStU",
-            "vWxYz01",
-            "23AbCdEf",
-            "45GhIjKl",
-            "67MnOpQr",
-            "89StUvWx",
-            "z01AbCdE",
-            "fGhIjKlM",
-            "nOpQrStU",
-            "vWxYz01",
-            "23AbCdEf",
-            "45GhIjKl",
-            "67MnOpQr",
-            "89StUvWx",
-            "z01AbCdE",
-            "fGhIjKlM",
-            "nOpQrStU",
-            "vWxYz01"
+            "ASDFGHIJ",
+            "SDFGHJKL",
+            "DFGHJKLQ",
+            "FGHJKLQW",
+            "GHJKLQWE",
+            "HJKLQWER",
+            "JKLQWERT",
+            "KLQWERTY",
+            "LQWERTYU",
+            "QWERTYUI",
+            "WERTYUIO",
+            "ERTYUIOP",
+            "RTYUIOPZ",
+            "TYUIOPZX",
+            "YUIOPZXC",
+            "UIOPZXCV",
+            "IOPZXCVB",
+            "OPZXCVBN",
+            "PZXCVBNM",
+            "ZXCVBNMA"
         ];
 
         for ($i=0; $i<20; $i++){

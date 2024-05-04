@@ -54,7 +54,7 @@
         <div class="mt-5 row">
             @foreach ($userClubs as $userClub)
                 <div class="col-md-3 col-sm-6 col-xs-12 d-flex align-items-stretch mb-3">
-                    <a href="{{route('view_club',['id'=>$userClub->c_id])}}" class="text-black text-decoration-none">
+                    <a href="{{route('view_club',['cid'=>$userClub->c_id])}}" class="text-black text-decoration-none">
                         <div class="card ms-auto me-auto w-100 club_card">
                             <div class="m-auto w-auto">
                                 <img src="{{asset('img/'.$userClub->c_logo)}}" class="card-img-top card_image" alt="Card Image">

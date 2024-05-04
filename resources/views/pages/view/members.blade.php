@@ -10,11 +10,11 @@
                         font-weight: bold;">
                     My Clubs</a>
                 </li>
-                <li class="breadcrumb-item"><a href="{{route('clubs')}}"
+                <li class="breadcrumb-item"><a href="{{route('view_club',['cid'=>$club->c_id])}}"
                         style="font-family: sans-serif;
                         font-size: 1rem;
                         font-weight: bold;">
-                    My Clubs Name</a>
+                    <?= $club->c_name ?></a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page"
                         style="font-family: sans-serif;
@@ -37,39 +37,57 @@
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
                 <h3 class="text-center mt-5">Manage Members</h3>
                 <br>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Mobile</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark HAHAHA KEKEodsdjj </td>
-                            <td>Otto asdhfj asdfjhfd adsjhfdj kadjfdj ajdfhdjbas kasjdf </td>
-                            <td>Otto dfhasfh asjdfsj sjdf ssdj dsjsbfj</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>Otto</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>Otto</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Mobile</th>
+                                <th scope="col">Role</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach ($members as $mem)
+                                <tr>
+                                    <td><?= $mem->ui_first_name.' '.$mem->ui_middle_name[0].'. '.$mem->ui_last_name ?></td>
+                                    <td><?= $mem->ui_address ?> </td>
+                                    <td><?= $mem->email ?></td>
+                                    <td><?= $mem->ui_mobile ?></td>
+                                    <td><?= $mem->mt_type ?></td>
+                                    <td class="text-center">
+                                        <a href="{{route('member_setting',['cmid'=>$mem->cm_id])}}" class="btn btn-primary"><i class="fa-solid fa-gear"></i></a>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeMember<?=$mem->cm_id?>">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="removeMember<?=$mem->cm_id?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Remove Member</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h5>You are about to remove <?= $mem->ui_first_name.' '.$mem->ui_middle_name[0].'. '.$mem->ui_last_name ?> in your club. Do you want to continue? </h5>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <a href="{{route('remove_member',['cmid'=>$mem->cm_id, 'cid'=>$mem->cm_c_id])}}"class="btn btn-primary">Continue</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
 {{-- ========================================================================================================================================= --}}
@@ -80,7 +98,7 @@
                 <br>
                 <table class="table table-striped">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th scope="col">Name</th>
                             <th scope="col">Address</th>
                             <th scope="col">Email</th>
@@ -89,25 +107,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>Otto</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>Otto</td>
-                            <td>@twitter</td>
+                        <tr class="text-center">
+                            @if (!$memRequest->isEmpty())
+                                @foreach ($memRequest as $req)
+                                    <td><?= $req->ui_first_name.' '.$req->ui_middle_name[0].'. '.$req->ui_last_name ?></td>
+                                    <td><?= $req->ui_address ?> </td>
+                                    <td><?= $req->email ?></td>
+                                    <td><?= $req->ui_mobile ?></td>
+                                    <td>
+                                        <a href="{{route('reject_member',['mrid'=>$req->mr_id, 'cid'=>$req->mr_c_id])}}" class="btn btn-danger">Reject</a>
+                                        <a href="{{route('accept_member',['mrid'=>$req->mr_id, 'cid'=>$req->mr_c_id, 'uid'=>$req->mr_u_id])}}" class="btn btn-primary">Accept</a>
+                                    </td>
+                                @endforeach
+                            @else
+                                <td colspan="5" class="text-center">No membership request found!</td>
+                            @endif
                         </tr>
                     </tbody>
                 </table>

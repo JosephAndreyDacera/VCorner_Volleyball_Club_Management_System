@@ -20,6 +20,10 @@ return new class extends Migration
             $table->foreign('cm_c_id')->references('c_id')->on('clubs');
             $table->unsignedBigInteger('cm_mt_id');
             $table->foreign('cm_mt_id')->references('mt_id')->on('membership_types');
+            $table->unsignedBigInteger('cm_t_id')->default(0);
+            // $table->foreign('cm_t_id')->references('t_id')->on('teams');
+            $table->unsignedBigInteger('cm_tmr_id');
+            // $table->foreign('cm_tmr_id')->references('tmr_id')->on('team_member_roles');
             $table->timestamps();
         });
     }
@@ -29,6 +33,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        //
         Schema::dropIfExists('club_members');
     }
 };

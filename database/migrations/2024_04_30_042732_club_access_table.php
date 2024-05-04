@@ -21,6 +21,8 @@ return new class extends Migration
             $table->integer('ca_teams');
             $table->integer('ca_statistics');
             $table->integer('ca_events');
+            $table->integer('ca_tournament');
+            $table->integer('ca_tournament_committee');
             $table->timestamps();
         });
     }

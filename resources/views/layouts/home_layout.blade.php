@@ -72,15 +72,15 @@
                             @if (request()->is('events'))
                                 <li class="nav-item nav_link me-1 nav_link_active">
                                     <a class="nav-link nav_link_font nav_link_font_active ps-2 " aria-current="page" href="{{route('events')}}">
-                                        <span><i class="fa-solid fa-calendar"></i></span>
-                                        Upcomming Events
+                                        <span><i class="fa-solid fa-trophy"></i></span>
+                                        Upcoming Tournaments
                                     </a>
                                 </li>
                             @else
                                 <li class="nav-item nav_link me-1">
                                     <a class="nav-link nav_link_font ps-2 " aria-current="page" href="{{route('events')}}">
-                                        <span><i class="fa-solid fa-calendar"></i></span>
-                                        Upcomming Events
+                                        <span><i class="fa-solid fa-trophy"></i></span>
+                                        Upcoming Tournaments
                                     </a>
                                 </li>
                             @endif

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ClubSeeder::class,
             MembershipSeeder::class,
+            TeamSeeder::class,
         ]);
     }
 }

@@ -117,10 +117,11 @@ class ClubController extends Controller
         return redirect()->route('clubs');
     }
 
-    public function viewClub($id){
+
+    public function viewClub($cid){
 
         $club = DB::table('clubs')
-        ->where('c_id', '=', $id)
+        ->where('c_id', '=', $cid)
         ->get();
 
         // if(!$club->isEmpty()){
@@ -132,22 +133,204 @@ class ClubController extends Controller
     }
 
 
+    public function editClub($id){
+
+        $club = DB::table('clubs')
+        ->where('c_id', '=', $id)
+        ->get();
+
+        // if(!$club->isEmpty()){
+        //     dd($club[0]);
+        // }
+
+
+        return view('pages.update.edit_club', ['clubInfo' => $club]);
+    }
+
+
     public function viewMembers($cid){
-        return view('pages.view.members');
+
+        $club = DB::table('clubs')
+        ->where('c_id', '=', $cid)
+        ->get();
+
+        // dd($club);
+
+        $members = DB::table('club_members')
+                    ->join('membership_types','membership_types.mt_id','=','club_members.cm_mt_id')
+                    ->join('users','users.id','=','club_members.cm_u_id')
+                    ->join('user_information','user_information.ui_u_id','=','users.id')
+                    ->where('cm_c_id', '=', $cid)
+                    ->get();
+
+        $memRequest = DB::table('membership_requests')
+                    ->join('users','users.id','=','membership_requests.mr_u_id')
+                    ->join('user_information','user_information.ui_u_id','=','users.id')
+                    ->where('mr_c_id','=',$cid)
+                    ->get();
+
+        return view('pages.view.members', ['members'=>$members, 'memRequest'=>$memRequest, 'club'=>$club[0]]);
     }
 
 
     public function viewTeams($cid){
-        return view('pages.view.view_club');
+        $club = DB::table('clubs')
+        ->where('c_id', '=', $cid)
+        ->get();
+
+        $teams = DB::table('teams')
+        ->where('t_c_id', '=', $cid)
+        ->get();
+
+        $teamMemberRole = DB::table('team_member_roles')->get();
+
+        $withTeam = DB::table('club_members')
+            ->join('team_member_roles', 'team_member_roles.tmr_id', '=', 'club_members.cm_tmr_id')
+            ->join('teams', 'teams.t_id' ,'=' , 'club_members.cm_t_id')
+            ->join('users', 'users.id' ,'=' , 'club_members.cm_u_id')
+            ->join('user_information', 'user_information.ui_u_id' ,'=' , 'users.id')
+            ->where('club_members.cm_c_id', '=', $cid)
+            ->where('club_members.cm_t_id', '!=', 0)
+            ->get();
+
+        $noTeams = DB::table('club_members')
+            ->join('users', 'users.id' ,'=' , 'club_members.cm_u_id')
+            ->join('user_information', 'user_information.ui_u_id' ,'=' , 'users.id')
+            ->where('cm_t_id', '=', 0)
+            ->where('cm_c_id', '=', $cid)
+            ->get();
+
+        return view('pages.view.view_teams',['club'=>$club[0], 'teams'=>$teams, 'withTeam'=>$withTeam, 'noTeam'=>$noTeams, 'teamMemberRole'=>$teamMemberRole]);
+    }
+
+
+    public function addTeam(Request $request, $cid){
+        $teamName = $request->input('teamName');
+        $teamDesc = $request->input('teamDescription');
+        $allowed = array('png', 'jpg', 'jpeg', 'gif', 'svg', 'webp');
+
+        if($request->has('teamLogo')){
+            $file = $request->file('teamLogo');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = 'team_logo/'.$cid.'_'.time().'.'.$extension;
+            if(in_array($extension, $allowed)){
+                $file -> move('img/team_logo/',$fileName);
+            }else{
+                session(["message_error"=>"Invalid image format! Acceptable image format are 'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'."]);
+                return redirect()->route('teams');
+            }
+        }else{
+            $num = rand(1, 8);
+            $fileName = "team_logo/club".$num.".png";
+        }
+
+        DB::table('teams')->insert([
+            't_name' => $teamName,
+            't_description' => $teamDesc,
+            't_c_id' => $cid,
+            't_logo' => $fileName
+        ]);
+
+        return redirect()->route('teams',['cid'=>$cid]);
+    }
+
+
+    public function assignTeam(Request $request, $cmid, $cid){
+
+        $tid = $request->input('assignTeam');
+        $tmr = $request->input('assignRole');
+
+        // dd($tid.' - - - '.$tmr);
+
+        DB::table('club_members')
+            ->where('cm_id', $cmid)
+            ->update([
+                'cm_t_id' => $tid,
+                'cm_tmr_id' => $tmr
+            ]);
+
+        return redirect()->route('teams',['cid'=>$cid]);
+    }
+
+
+    public function removeFromTeam($cmid, $cid){
+        DB::table('club_members')
+            ->where('cm_id', $cmid)
+            ->update([
+                'cm_t_id' => 0,
+                'cm_tmr_id' => 0
+            ]);
+
+        return redirect()->route('teams',['cid'=>$cid]);
+    }
+
+
+    public function viewUpdateTeam($tid){
+        $team = DB::table('teams')->where('t_id', '=', $tid)->get();
+        $club = DB::table('clubs')
+                ->join('teams', 'teams.t_c_id', '=', 'clubs.c_id')
+                ->where('teams.t_id', '=', $tid)
+                ->get();
+
+        $teamMembers = DB::table('club_members')
+        ->join('team_member_roles', 'team_member_roles.tmr_id', '=', 'club_members.cm_tmr_id')
+        ->join('users', 'users.id', '=', 'club_members.cm_u_id')
+        ->join('user_information', 'user_information.ui_id', '=', 'users.id')
+        ->where('cm_t_id', '=', $tid)
+        ->get();
+
+        return view('pages.view.update_team', ['team'=>$team[0], 'teamMembers'=>$teamMembers, 'club'=>$club[0]]);
+    }
+
+
+    public function updateTeam(Request $request, $cid, $tid){
+        $teamName = $request->input('teamName');
+        $teamDesc = $request->input('teamDescription');
+        $allowed = array('png', 'jpg', 'jpeg', 'gif', 'svg', 'webp');
+
+        if($request->has('teamLogo')){
+            $file = $request->file('teamLogo');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = 'team_logo/'.$cid.'_'.time().'.'.$extension;
+            if(in_array($extension, $allowed)){
+                $file -> move('img/team_logo/',$fileName);
+            }else{
+                session(["message_error"=>"Invalid image format! Acceptable image format are 'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'."]);
+                return redirect()->route('teams');
+            }
+        }else{
+            $num = rand(1, 8);
+            $fileName = "team_logo/club".$num.".png";
+        }
+
+        DB::table('teams')
+        ->where('t_id',$tid)
+        ->update([
+            't_name' => $teamName,
+            't_description' => $teamDesc,
+            't_logo' => $fileName
+        ]);
+
+        return redirect()->route('teams',['cid'=>$cid]);
+    }
+
+    public function removeTeam($tid, $cid){
+        DB::table('club_members')
+        ->where('cm_t_id',$tid)
+        ->update([
+                'cm_t_id' => 0,
+                'cm_tmr_id' => 0
+        ]);
+
+        DB::table('teams')
+        ->where('t_id',$tid)
+        ->delete();
+
+        return redirect()->route('teams',['cid'=>$cid]);
     }
 
 
     public function viewStatistics($cid){
-        return view('pages.view.view_club');
-    }
-
-
-    public function viewEvents($cid){
         return view('pages.view.view_club');
     }
 
@@ -218,6 +401,45 @@ class ClubController extends Controller
         return view('pages.view.client_membership_updates',['memberRequest'=>$memberRequest]);
     }
 
+// =======================================================================================
+// =======================================================================================
+
+//      Club Tournament Methods
+
+// =======================================================================================
+// =======================================================================================
+
+public function viewEvents($cid){
+    return view('pages.view.view_events');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**
@@ -239,9 +461,51 @@ class ClubController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Club $club)
+    public function update(Request $request, $id)
     {
-        //
+        $name = $request->input('clubName');
+        $address = $request->input('clubAddress');
+        $email = $request->input('clubEmail');
+        $mobile = $request->input('clubMobile');
+        $founded = $request->input('clubFounded');
+        $facebook = $request->input('facebook');
+        $instagram = $request->input('instagram');
+        $x = $request->input('x');
+        $youtube = $request->input('youtube');
+        $website = $request->input('website');
+
+        if($request->has('clubLogo')){
+            $file = $request->file('clubLogo');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = 'club_logo/'.$uid.'_'.time().'.'.$extension;
+            if(in_array($extension, $allowed)){
+                $file -> move('img/club_logo/',$fileName);
+            }else{
+                session(["message_error"=>"Invalid image format! Acceptable image format are 'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'."]);
+                return redirect()->route('create_club');
+            }
+        }else{
+            $fileName = $request->input('origLogo');
+        }
+
+
+        DB::table('clubs')
+              ->where('c_id', $id)
+              ->update([
+                'c_name' => $name,
+                'c_address' => $address,
+                'c_email' => $email,
+                'c_mobile' => $mobile,
+                'c_date_founded' => $founded,
+                'c_logo' => $fileName,
+                'c_facebook' => $facebook,
+                'c_instagram' => $instagram,
+                'c_x'=> $x,
+                'c_youtube' => $youtube,
+                'c_website' => $website,
+                ]);
+
+        return redirect()->route('view_club',['id'=>$id]);
     }
 
     /**
