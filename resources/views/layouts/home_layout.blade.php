@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
     <script src="{{asset('js/jquery-3.7.1.js')}}"></script>
+    <script src="{{asset('js/bootstrap.bundle.js')}}"></script>
+    <script src="{{asset('js/all.js')}}"></script>
 
 </head>
 <body>
@@ -69,7 +71,7 @@
                                 </li>
                             @endif
 
-                            @if (request()->is('events'))
+                            {{-- @if (request()->is('events'))
                                 <li class="nav-item nav_link me-1 nav_link_active">
                                     <a class="nav-link nav_link_font nav_link_font_active ps-2 " aria-current="page" href="{{route('events')}}">
                                         <span><i class="fa-solid fa-trophy"></i></span>
@@ -83,7 +85,8 @@
                                         Upcoming Tournaments
                                     </a>
                                 </li>
-                            @endif
+                            @endif --}}
+
                             {{-- <li class="nav-item ms-1 nav_link">
                                 <a class="nav-link text-white" aria-current="page" href="#">
                                     <span><i class="fa-solid fa-user"></i></span>
@@ -133,9 +136,5 @@
             </ul>
         </footer> --}}
     </div>
-
-    <script src="{{asset('js/bootstrap.bundle.js')}}"></script>
-    <script src="{{asset('js/jquery-3.7.1.js')}}"></script>
-    <script src="{{asset('js/all.js')}}"></script>
 </body>
 </html>

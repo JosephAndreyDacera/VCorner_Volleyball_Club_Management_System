@@ -401,17 +401,17 @@ class ClubController extends Controller
         return view('pages.view.client_membership_updates',['memberRequest'=>$memberRequest]);
     }
 
-// =======================================================================================
-// =======================================================================================
+    public function viewEvents($cid){
 
-//      Club Tournament Methods
+        $tournaments = DB::table('tournaments')
+        ->where('tour_c_id',$cid)
+        ->orderBy('tour_status', 'asc')
+        ->get();
 
-// =======================================================================================
-// =======================================================================================
+        $club = DB::table('clubs')->where('c_id',$cid)->get();
 
-public function viewEvents($cid){
-    return view('pages.view.view_events');
-}
+        return view('pages.view.view_events',['cid'=>$cid, 'tournaments'=>$tournaments, 'club'=>$club[0] ]);
+    }
 
 
 
